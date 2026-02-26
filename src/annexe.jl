@@ -14,13 +14,15 @@ function afficher_map(grille)
 end
 
 # Permet d'afficher une map avec les points de départ et d'arrivée, utilisée par les algorithmes lors de l'affichage final
-function afficher_map_avec_DA(grille, vD, vA)
+function afficher_map_avec_chemin(grille, vD, vA, chemin)
     for i in 1:length(grille)
         for j in 1:length(grille[1]) # Pour chaque point, on affiche sa valeur, sauf pour les points de départ et arrivée où l'on affiche respectivement D et A
             if ((i,j) == vD)
                 print('D')
             elseif ((i,j) == vA)
                 print('A')
+            elseif ((i,j) in chemin[2:(length(chemin)-1)])
+                print('X')
             else
                 print(grille[i][j])
             end
@@ -55,14 +57,14 @@ function cout(point, grille)
     (i,j) = point
     if grille[i][j] == 'S' # Coût de 5 pour le sable
         return 5
-    elseif grille[i][j] == 'W' # Coût de 8 pour l'eau(?)
+    elseif grille[i][j] == 'W' # Coût de 8 pour l'eau
         return 8
     else 
         return 1 # Coût de 1 pour le reste
     end
 end
 
-# Permet de retrouver le chemin allant du point de départ au point d'arrivée en utilisant une "liste" (matrice ou dictionnaire) d'antécédants
+# Permet de retrouver le chemin allant du point de départ au point d'arrivée en utilisant une matrice d'antécédants
 function trouve_chemin(antecedants, dep, arr, liste)
     pushfirst!(liste, arr)
     if (dep == arr) # On arrête lorsque l'on a retrouvé le point de départ
@@ -89,4 +91,9 @@ function cout_chemin(l, grille)
         total += cout(l[i], grille)
     end
     return total
+end
+
+# Fonction heuristique
+function heuristique(a,b)
+    return abs(a[1]-b[1]) + abs(a[2]-b[2])
 end

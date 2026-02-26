@@ -1,6 +1,8 @@
 # On récupère les algortihmes
 include("BFS.jl")
 include("Dijkstra.jl")
+include("Astar.jl")
+include("Glouton.jl")
 
 # Affiche la map donnée en paramètre
 function afficheMapTerminal(fname) 
@@ -21,11 +23,29 @@ function algoBFS(fname, vD, vA)
     BFS(grille, vD, vA)
 end
 
-# Applique l'algorithme Drijkstra
-function algoDrijkstra(fname, vD, vA)
+# Applique l'algorithme Dijkstra
+function algoDijkstra(fname, vD, vA)
     fic = open(string("../dat/",fname), "r")
     img = readlines(fic)
     close(fic)
     grille = img[5:length(img), :]
     Dijkstra(grille, vD, vA)
+end
+
+# Applique l'algorithme A*
+function algoAstar(fname, vD, vA)
+    fic = open(string("../dat/",fname), "r")
+    img = readlines(fic)
+    close(fic)
+    grille = img[5:length(img), :]
+    Astar(grille, vD, vA)
+end
+
+# Applique l'algorithme Glouton
+function algoGlouton(fname, vD, vA)
+    fic = open(string("../dat/",fname), "r")
+    img = readlines(fic)
+    close(fic)
+    grille = img[5:length(img), :]
+    Glouton(grille, vD, vA)
 end
