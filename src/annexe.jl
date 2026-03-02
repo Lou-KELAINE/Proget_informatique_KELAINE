@@ -55,7 +55,7 @@ end
 # Donne le coût de déplacement vers un point de la grille
 function cout(point, grille)
     (i,j) = point
-    if grille[i][j] == 'S' # Coût de 5 pour le sable
+    if (grille[i][j] == 'S' || grille[i][j] == 'T') # Coût de 5 pour le sable et les arbres
         return 5
     elseif grille[i][j] == 'W' # Coût de 8 pour l'eau
         return 8

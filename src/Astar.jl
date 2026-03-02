@@ -11,9 +11,14 @@ function Astar(G, vD, vA)
     g = fill(Inf, height, width) # Matrice associant à chaque point le coût minimal pour aller de vD à ce point
     f = fill(Inf, height, width) # Matrice associant à chaque point la distance supposée de vD à vA en passant par ce point
     L = [vD]
+    if (vD == vA) # Dans le cas où le départ et l'arrivée sont les mêmes
+        afficher_map_avec_chemin(G, vD, vA, [(0,0),(0,0),(0,0)]) # Affichage correspondant à celui de l'énoncé
+        println("\nBFS\n\nSolution :\n CPUtime (s) : ", (time() - t1),"\n Distance D -> A : 0 \n Number of states evaluated : 0\n Path D -> A\n  ", vD)
+        return
+    end
     if (G[vA[1]][vA[2]] == '@') # Si le point d'arrivée est dans un '@' 
         afficher_map_avec_chemin(G, vD, vA, [(0,0),(0,0),(0,0)])
-        println(string("\nA*\n\nCPUtime (s) : ", (time() - t1), "\nIl est impossible d'aller au point ", vA, " en partant du point ", vD))
+        println(string("\nA*\n\nCPUtime (s) : ", (time() - t1), "\nNumber of states evaluated : 0\nIl est impossible d'aller au point ", vA, " en partant du point ", vD))
         return
     end
     g[vD[1], vD[2]] = 0
@@ -56,6 +61,6 @@ function Astar(G, vD, vA)
         end
     end
     afficher_map_avec_chemin(G, vD, vA, [(0,0),(0,0),(0,0)])
-    println(string("\nA*\n\nCPUtime (s) : ", (time() - t1), "\nIl est impossible d'aller au point ", vA, " en partant du point ", vD))  # Si la liste est vide, alors le point d'arrivée est inaccessible
+    println(string("\nA*\n\nCPUtime (s) : ", (time() - t1), "\nNumber of states evaluated : ", cpt, "\nIl est impossible d'aller au point ", vA, " en partant du point ", vD))  # Si la liste est vide, alors le point d'arrivée est inaccessible
     return
 end

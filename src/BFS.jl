@@ -10,7 +10,7 @@ function BFS(G, vD, vA)
     end
     if (G[vA[1]][vA[2]] == '@') # Si le point d'arrivée est dans un '@' 
         afficher_map_avec_chemin(G, vD, vA, [(0,0),(0,0),(0,0)])
-        println(string("\nBFS\n\nCPUtime (s) : ", (time() - t1), "\nIl est impossible d'aller au point ", vA, " en partant du point ", vD))
+        println(string("\nBFS\n\nCPUtime (s) : ", (time() - t1), "\nNumber of states evaluated : 0\nIl est impossible d'aller au point ", vA, " en partant du point ", vD))
         return
     end
     cpt = 0 # Compteur du nombre de points visités
@@ -43,6 +43,6 @@ function BFS(G, vD, vA)
         end
     end
     afficher_map_avec_chemin(G, vD, vA, [(0,0),(0,0),(0,0)])
-    println(string("\nBFS\n\nCPUtime (s) : ", (time() - t1), "\nIl est impossible d'aller au point ", vA, " en partant du point ", vD)) # Si la liste est vide, alors le point d'arrivée est inaccessible
+    println(string("\nBFS\n\nCPUtime (s) : ", (time() - t1), "\nNumber of states evaluated : ", cpt, "\nIl est impossible d'aller au point ", vA, " en partant du point ", vD)) # Si la liste est vide, alors le point d'arrivée est inaccessible
     return
 end

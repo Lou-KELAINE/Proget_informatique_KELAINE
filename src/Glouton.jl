@@ -4,13 +4,18 @@ include("annexe.jl")
 function Glouton(G, vD, vA)
     t1 = time()
     L = [vD]
-    precedent = fill((0,0), height, width) # Matrice dans laquelle chaque point est associé son prédécesseur
     cpt = 0  # Compteur du nombre de points visités
     height = length(G)
     width = length(G[1])
+    precedent = fill((0,0), height, width) # Matrice dans laquelle chaque point est associé son prédécesseur
+    if (vD == vA) # Dans le cas où le départ et l'arrivée sont les mêmes
+        afficher_map_avec_chemin(G, vD, vA, [(0,0),(0,0),(0,0)]) # Affichage correspondant à celui de l'énoncé
+        println("\nBFS\n\nSolution :\n CPUtime (s) : ", (time() - t1),"\n Distance D -> A : 0 \n Number of states evaluated : 0\n Path D -> A\n  ", vD)
+        return
+    end
     if (G[vA[1]][vA[2]] == '@') # Si le point d'arrivée est dans un '@' 
         afficher_map_avec_chemin(G, vD, vA, [(0,0),(0,0),(0,0)])
-        println(string("\nGlouton\n\nCPUtime (s) : ", (time() - t1), "\nIl est impossible d'aller au point ", vA, " en partant du point ", vD))
+        println(string("\nGlouton\n\nCPUtime (s) : ", (time() - t1), "\nNumber of states evaluated : 0\nIl est impossible d'aller au point ", vA, " en partant du point ", vD))
         return
     end
     precedent[vD[1],vD[2]] = vD # On met le prédécesseur du point de départ à lui même
@@ -46,6 +51,6 @@ function Glouton(G, vD, vA)
         end
     end
     afficher_map_avec_chemin(G, vD, vA, [(0,0),(0,0),(0,0)])
-    println(string("\nGlouton\n\nCPUtime (s) : ", (time() - t1), "\nIl est impossible d'aller au point ", vA, " en partant du point ", vD))  # Si la liste est vide, alors le point d'arrivée est inaccessible
+    println(string("\nGlouton\n\nCPUtime (s) : ", (time() - t1), "\nNumber of states evaluated : ", cpt, "\nIl est impossible d'aller au point ", vA, " en partant du point ", vD))  # Si la liste est vide, alors le point d'arrivée est inaccessible
     return
 end

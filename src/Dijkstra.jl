@@ -6,9 +6,14 @@ function Dijkstra(G, vD, vA)
     height = length(G)
     width = length(G[1])
     cpt = 0 # Compteur du nombre de points visités
+    if (vD == vA) # Dans le cas où le départ et l'arrivée sont les mêmes
+        afficher_map_avec_chemin(G, vD, vA, [(0,0),(0,0),(0,0)]) # Affichage correspondant à celui de l'énoncé
+        println("\nBFS\n\nSolution :\n CPUtime (s) : ", (time() - t1),"\n Distance D -> A : 0 \n Number of states evaluated : 0\n Path D -> A\n  ", vD)
+        return
+    end
     if (G[vA[1]][vA[2]] == '@') # Si le point d'arrivée est dans un '@' 
         afficher_map_avec_chemin(G, vD, vA, [(0,0),(0,0),(0,0)])
-        println(string("\nDrijkstra\n\nCPUtime (s) : ", (time() - t1), "\nIl est impossible d'aller au point ", vA, " en partant du point ", vD))
+        println(string("\nDrijkstra\n\nCPUtime (s) : ", (time() - t1), "\nNumber of states evaluated : 0\nIl est impossible d'aller au point ", vA, " en partant du point ", vD))
         return
     end
     distance = fill(Inf, height, width) # Matrice stockant la distance d'un point au point de départ
@@ -34,7 +39,7 @@ function Dijkstra(G, vD, vA)
         end
         if (isnothing(u))
             afficher_map_avec_chemin(G, vD, vA, [(0,0),(0,0),(0,0)])
-                println(string("\nDrijkstra\n\nCPUtime (s) : ", (time() - t1), "\nIl est impossible d'aller au point ", vA, " en partant du point ", vD))  # Si la liste est vide, alors le point d'arrivée est inaccessible
+                println(string("\nDrijkstra\n\nCPUtime (s) : ", (time() - t1), "\nNumber of states evaluated : ", cpt + 1, "\nIl est impossible d'aller au point ", vA, " en partant du point ", vD))  # Si la liste est vide, alors le point d'arrivée est inaccessible
             return
         end
         permanent[u[1],u[2]] = true # On rend le point permanent, pour ne plus le visiter
