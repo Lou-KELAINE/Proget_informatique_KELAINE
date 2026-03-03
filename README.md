@@ -10,10 +10,15 @@ Il est impératif que les dossiers src/ et data/ soient mis au même endroit.
 
 Rendez-vous dans le dossier src/ puis lancez le REPL Julia avec la commande "julia" puis faites "include("main.jl")" afin de compiler le fichier.
 Il y a 5 commandes disponibles:
+
 algoBFS(fname, D, A)
+
 algoDijkstra(fname, D, A)
+
 algoAstar(fname, D, A)
+
 algoGlouton(fname, D, A)
+
 afficheMapTerminal(fname)
 
 avec fname le nom du fichier (par besoin de rajouter le "../" avant le nom du fichier mais le .map est nécessaire), D le point de départ et A l'arrivée.
