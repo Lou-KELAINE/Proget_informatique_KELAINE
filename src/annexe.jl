@@ -37,16 +37,16 @@ function voisins_valides(point, grille)
     (i,j) = point
     height = length(grille)
     width = length(grille[1])
-    if ((i + 1 <= width) && (grille[i+1][j] != '@')) #bas
+    if ((i + 1 <= width) && !(grille[i+1][j] in ['@','T'])) #bas
         push!(liste_voisins, (i+1,j))
     end
-    if ((i - 1 >= 1) && (grille[i-1][j] != '@')) #haut
+    if ((i - 1 >= 1) && !(grille[i-1][j] in ['@','T'])) #haut
         push!(liste_voisins, (i-1,j))
     end
-    if ((j - 1 >= 1) && (grille[i][j-1] != '@')) #gauche
+    if ((j - 1 >= 1) && !(grille[i][j-1] in ['@','T'])) #gauche
         push!(liste_voisins, (i,j-1))
     end
-    if ((j + 1 <= height) && (grille[i][j+1] != '@')) #droite
+    if ((j + 1 <= height) && !(grille[i][j+1] in ['@','T'])) #droite
         push!(liste_voisins, (i,j+1))
     end
     return liste_voisins
@@ -55,7 +55,7 @@ end
 # Donne le coût de déplacement vers un point de la grille
 function cout(point, grille)
     (i,j) = point
-    if (grille[i][j] == 'S' || grille[i][j] == 'T') # Coût de 5 pour le sable et les arbres
+    if (grille[i][j] == 'S') # Coût de 5 pour le sable
         return 5
     elseif grille[i][j] == 'W' # Coût de 8 pour l'eau
         return 8
