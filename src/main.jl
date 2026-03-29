@@ -1,4 +1,5 @@
 # On récupère les algortihmes
+import Pkg; Pkg.add("DataStructures")
 include("BFS.jl")
 include("Dijkstra.jl")
 include("Astar.jl")

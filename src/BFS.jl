@@ -6,7 +6,7 @@ function BFS(G, vD, vA)
     if (vD == vA) # Dans le cas où le départ et l'arrivée sont les mêmes
         t2 = (time() - t1)
         afficher_map_avec_chemin(G, vD, vA, [(0,0),(0,0),(0,0)]) # Affichage correspondant à celui de l'énoncé
-        println("\nBFS\n\nSolution :\n CPUtime (s) : ", t2,"\n Distance D -> A : 0 \n Number of states evaluated : 0\n Path D -> A\n  ", vD)
+        println("\nBFS\n\nSolution :\n CPUtime (s) : ", t2,"\n Distance D -> A : 0\n Cost : 0\n Number of states evaluated : 0\n Path D -> A\n  ", vD)
         return
     end
     if (G[vA[1]][vA[2]] in ['@','T']) # Si le point d'arrivée est dans un '@' ou un 'T'
@@ -34,7 +34,7 @@ function BFS(G, vD, vA)
                 chemin = trouve_chemin(precedent, vD, vA, []) # On récupère le chemin accedant à ce point
                 t2 = (time() - t1)
                 afficher_map_avec_chemin(G, vD, vA, chemin)
-                println("\nBFS\n\nSolution :\n CPUtime (s) : ", t2,"\n Distance D -> A : ", cout_chemin(chemin,G), "\n Number of states evaluated : ", cpt + 1, "\n Path D -> A\n  ", string_chemin(chemin)) # Affichage demandé par l'énoncé
+                println("\nBFS\n\nSolution :\n CPUtime (s) : ", t2,"\n Distance D -> A : ", length(chemin) - 1,"\n Cost : ", cout_chemin(chemin,G), "\n Number of states evaluated : ", cpt + 1, "\n Path D -> A\n  ", string_chemin(chemin)) # Affichage demandé par l'énoncé
                 return
             elseif precedent[v[1],v[2]] == (0,0) # Si le point n'a pas déjà été visité
                 cpt += 1

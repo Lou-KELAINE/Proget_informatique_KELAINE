@@ -4,7 +4,7 @@
 # Permet d'afficher une map, utilisée par la fonction afficheMapTerminal de main.jl
 function afficher_map(grille)
     print(" ")
-    for i in 1: length(grille) # Affiche les numéros de colonnes (modulo 10 pour pouvoir aligner)
+    for i in 1: length(grille[1]) # Affiche les numéros de colonnes (modulo 10 pour pouvoir aligner)
         print(i%10)
     end
     print("\n")
@@ -96,4 +96,34 @@ end
 # Fonction heuristique
 function heuristique(a,b)
     return abs(a[1]-b[1]) + abs(a[2]-b[2])
+end
+
+# A partir de maintenant se trouvent les fonctions ajoutées pour le problème des liste_AMRs
+
+# Même chose que trouve_chemin, en mettant cette fois plusieurs fois la même case en cas de coûts supérieurs à 1, utilisée pour la version AMR du problème
+function trouve_chemin_doublons(grille, antecedants, dep, arr, tps, liste)
+    cout_case = cout(arr, grille)
+    for i in 1:cout_case # On met la case autant de fois que nécéssaire
+        pushfirst!(liste, (arr, 0)) # Puisqu'il n'est pas possible de connaître à l'avance le nombre de cases parcourues, on met d'abord le temps à 0
+    end
+    if (dep == arr) # On arrête lorsque l'on a retrouvé le point de départ
+        for i in 1:length(liste) # On met le temps à jour
+            liste[2] = i
+        end
+        return liste
+    else
+        return trouve_chemin_doublons(grille, antecedants, dep, antecedants[arr[1],arr[2]], tps, liste) # Appel récursif sur l'antécédant du point
+    end
+end
+
+# Fonction vérifiant s'il y a une collision entre 2 AMRs, renvoie le point de collision le cas échant
+function verif_collision(occup, chemin)
+    for i in 1:(length(chemin) -1) # On vérifie l'acccesibilité de chaque point du chemin (hormis le point de départ)
+        for (amr, t) in occup[chemin[i+1][1]] # On regarde tous les instants où le point suivant est occupé
+            if ((t == chemin[i+1][2]) || ((t == (chemin[i+1][2] -1)) && ((amr, t+1) in occup[chemin[i][1]]))) # Si il y a déjà un AMR à cette case au temps t ou qu'il y a un croisement
+                return chemin[i+1][1] # On renvoie la position de la collision
+            end
+        end
+    end
+    return (0,0) # Si il n'y a pas de collision
 end
