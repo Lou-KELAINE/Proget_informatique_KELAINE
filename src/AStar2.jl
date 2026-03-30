@@ -20,7 +20,6 @@ function AStar2(G, vD, vA, tDep)
             return trouve_chemin_doublons(G, precedent, vD, vA, tDep,[]) #On récupère le chemin menant à l'arrivée
         end
         permanent[u[1],u[2]] = true # On rend le point permanent, pour ne plus le visiter
-        cpt += 1
         S = voisins_valides(u, G)
         for s in S
             if !permanent[s[1],s[2]]

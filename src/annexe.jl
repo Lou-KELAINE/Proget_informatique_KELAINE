@@ -37,7 +37,7 @@ function voisins_valides(point, grille)
     (i,j) = point
     height = length(grille)
     width = length(grille[1])
-    if ((i + 1 <= width) && !(grille[i+1][j] in ['@','T'])) #bas
+    if ((i + 1 <= height) && !(grille[i+1][j] in ['@','T'])) #bas
         push!(liste_voisins, (i+1,j))
     end
     if ((i - 1 >= 1) && !(grille[i-1][j] in ['@','T'])) #haut
@@ -46,7 +46,7 @@ function voisins_valides(point, grille)
     if ((j - 1 >= 1) && !(grille[i][j-1] in ['@','T'])) #gauche
         push!(liste_voisins, (i,j-1))
     end
-    if ((j + 1 <= height) && !(grille[i][j+1] in ['@','T'])) #droite
+    if ((j + 1 <= width) && !(grille[i][j+1] in ['@','T'])) #droite
         push!(liste_voisins, (i,j+1))
     end
     return liste_voisins
@@ -108,7 +108,7 @@ function trouve_chemin_doublons(grille, antecedants, dep, arr, tps, liste)
     end
     if (dep == arr) # On arrête lorsque l'on a retrouvé le point de départ
         for i in 1:length(liste) # On met le temps à jour
-            liste[i][2] = tps-1+i
+            liste[i] = (liste[i][1], tps-1+i) # Obligé de créér un nouveau tuple car leur modification semble interdite en Julia?
         end
         return liste
     else
@@ -116,14 +116,35 @@ function trouve_chemin_doublons(grille, antecedants, dep, arr, tps, liste)
     end
 end
 
-# Fonction vérifiant s'il y a une collision entre 2 AMRs, renvoie le point de collision le cas échant
+# Fonction vérifiant s'il y a une collision entre 2 AMRs, renvoie le point et le moment de la collision le cas échant
 function verif_collision(occup, chemin)
     for i in 1:(length(chemin) -1) # On vérifie l'acccesibilité de chaque point du chemin (hormis le point de départ)
-        for (amr, t) in occup[chemin[i+1][1]] # On regarde tous les instants où le point suivant est occupé
-            if ((t == chemin[i+1][2]) || ((t == (chemin[i+1][2] -1)) && ((amr, t+1) in occup[chemin[i][1]]))) # Si il y a déjà un AMR à cette case au temps t ou qu'il y a un croisement
-                return chemin[i+1][1] # On renvoie la position de la collision
+        for (amr, t) in occup[chemin[i+1][1][1], chemin[i+1][1][2]] # On regarde tous les instants où le point suivant est occupé
+            if ((t == chemin[i+1][2]) || ((t == (chemin[i+1][2] -1)) && ((amr, t+1) in occup[chemin[i][1][1],chemin[i][1][2]]))) # Si il y a déjà un AMR à cette case au temps t ou qu'il y a un croisement
+                return (chemin[i+1][1], i+1) # On renvoie la position de la collision
             end
         end
     end
-    return (0,0) # Si il n'y a pas de collision
+    return ((0,0),0) # Si il n'y a pas de collision
+end
+
+# Fonction rajoutant un '@' à un point précis de la grille
+function rajoute_arobase(G, x, y)
+    H = []
+    for i in 1:length(G)
+        if (i != x)
+            push!(H, G[i])
+        else
+            ligne = ""
+            for j in 1:length(G[i])
+                if (j != y)
+                    ligne = string(ligne, G[i][j])
+                else
+                    ligne = string(ligne, '@')
+                end
+            end
+            push!(H, ligne)
+        end
+    end
+    return H
 end

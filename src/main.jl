@@ -4,6 +4,7 @@ include("BFS.jl")
 include("Dijkstra.jl")
 include("Astar.jl")
 include("Glouton.jl")
+include("AMR.jl")
 
 # Affiche la map donnée en paramètre
 function afficheMapTerminal(fname) 
@@ -49,4 +50,13 @@ function algoGlouton(fname, vD, vA)
     close(fic)
     grille = img[5:length(img), :]
     Glouton(grille, vD, vA)
+end
+
+# Applique l'algorithme de résolution du problème d'AMRs
+function algoAMR(fname, liste_AMRs)
+    fic = open(string("../dat/",fname), "r")
+    img = readlines(fic)
+    close(fic)
+    grille = img[5:length(img), :]
+    AMR(grille, liste_AMRs)
 end
