@@ -108,7 +108,7 @@ function trouve_chemin_doublons(grille, antecedants, dep, arr, tps, liste)
     end
     if (dep == arr) # On arrête lorsque l'on a retrouvé le point de départ
         for i in 1:length(liste) # On met le temps à jour
-            liste[2] = i
+            liste[i][2] = tps-1+i
         end
         return liste
     else
