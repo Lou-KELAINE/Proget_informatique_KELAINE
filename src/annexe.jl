@@ -37,20 +37,21 @@ function voisins_valides(point, grille)
     (i,j) = point
     height = length(grille)
     width = length(grille[1])
-    if ((i + 1 <= height) && !(grille[i+1][j] in ['@','T'])) #bas
-        push!(liste_voisins, (i+1,j))
-    end
     if ((i - 1 >= 1) && !(grille[i-1][j] in ['@','T'])) #haut
         push!(liste_voisins, (i-1,j))
-    end
-    if ((j - 1 >= 1) && !(grille[i][j-1] in ['@','T'])) #gauche
-        push!(liste_voisins, (i,j-1))
     end
     if ((j + 1 <= width) && !(grille[i][j+1] in ['@','T'])) #droite
         push!(liste_voisins, (i,j+1))
     end
+    if ((i + 1 <= height) && !(grille[i+1][j] in ['@','T'])) #bas
+        push!(liste_voisins, (i+1,j))
+    end
+    if ((j - 1 >= 1) && !(grille[i][j-1] in ['@','T'])) #gauche
+        push!(liste_voisins, (i,j-1))
+    end
     return liste_voisins
 end
+
 
 # Donne le coût de déplacement vers un point de la grille
 function cout(point, grille)
