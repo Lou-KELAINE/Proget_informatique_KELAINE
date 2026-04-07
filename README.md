@@ -41,5 +41,4 @@ Pour éxécuter l'une des commandes, il suffit de la saisir sur le REPL Julia.
   - Cela signifie que l'AMR1 correspondra au 1er AMR de la liste, AMR2 au second, etc...
   - Si vous souhaitez avoir un ordre par temps de départ, il faut donc que les AMRs soit donnés dans cet ordre dans liste_AMRs
  
-- Encore pour algoAMR, l'option permettant à un AMR de rester sur place et attendre n'a pas été implémentée, donnant des résultats différents de ceux fournis dans le sujet.
-  - Par exemple, sur l'exemple de l'énoncé, si les AMRs sont fournis par ordre de temps de départ, l'AMR2 se retrouve bloqué entre les AMRs 1 et 3 et il n'y a donc pas de solution.
+- Encore pour algoAMR, l'option permettant à un AMR de rester sur place et attendre n'a pas été implémentée, il peut donc y avoir des blocages qui auraient pû être résolus si les AMRs savaient rester sur place.
