@@ -1,3 +1,5 @@
+# Auteur: Lou KELAINE
+# Ce fichier contient l'algorithme Dijkstra
 # On récupère les fonctions annexes
 include("annexe.jl")
 using DataStructures

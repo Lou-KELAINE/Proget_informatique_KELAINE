@@ -1,3 +1,6 @@
+# Auteur: Lou KELAINE
+# Ce fichier contient toutes les fonctions permettant de lancer les algorithmes
+
 # On récupère les algortihmes
 import Pkg; Pkg.add("DataStructures")
 include("BFS.jl")

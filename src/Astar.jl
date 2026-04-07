@@ -1,3 +1,5 @@
+# Auteur: Lou KELAINE
+# Ce fichier contient l'algorithme A* de la 1ère partie
 # On récupère les fonctions annexes
 include("annexe.jl")
 
@@ -25,7 +27,7 @@ function Astar(G, vD, vA)
     precedent[vD[1], vD[2]] = (0,0)
     L = PriorityQueue{Tuple{Int,Int}, Float64}() # File avec priorité, à chaque point est associée sa valeur f
     enqueue!(L, vD, heuristique(vD, vA))
-    while L != []
+    while !isempty(L)
         u, v = peek(L)
         if (u == vA) # Si l'on atteint l'arrivée
             chemin = trouve_chemin(precedent, vD, vA, []) #On récupère le chemin menant à l'arrivée

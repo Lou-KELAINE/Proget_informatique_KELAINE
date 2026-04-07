@@ -1,3 +1,6 @@
+# Auteur: Lou KELAINE
+# Ce fichier contient l'algorithme BFS
+
 # On récupère les fonctions annexes
 include("annexe.jl")
 

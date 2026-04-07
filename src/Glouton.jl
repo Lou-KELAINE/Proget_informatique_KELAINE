@@ -1,3 +1,6 @@
+# Auteur: Lou KELAINE
+# Ce fichier contient l'algorithme Glouton
+
 # On récupère les fonctions annexes
 include("annexe.jl")
 using DataStructures
@@ -23,7 +26,7 @@ function Glouton(G, vD, vA)
     precedent[vD[1],vD[2]] = vD # On met le prédécesseur du point de départ à lui même
     L = PriorityQueue{Tuple{Int,Int}, Float64}() # File avec priorité, à chaque point est associée sa valeur f
     enqueue!(L, vD, heuristique(vD, vA))
-    while L != []
+    while !isempty(L)
         u, v = peek(L)
         if (u == vA) # Si on trouve le point d'arrivée
             chemin = trouve_chemin(precedent, vD, vA, []) #On récupère le chemin menant à l'arrivée

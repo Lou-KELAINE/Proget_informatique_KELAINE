@@ -1,3 +1,6 @@
+# Auteur: Lou KELAINE
+# Ce fichier contient l'algorithme A* de la 2ème partie, version simplifiée de la première variante
+
 # On récupère les fonctions annexes
 include("annexe.jl")
 
@@ -5,7 +8,10 @@ function AStar2(G, vD, vA, tDep)
     height = length(G)
     width = length(G[1])
     if (vD == vA) # Dans le cas où le départ et l'arrivée sont les mêmes
-        return [(vD, tDep)]
+        return [(vD, tDep)] # Le chemin est donc le point lui même
+    end
+    if (G[vA[1]][vA[2]] in ['@','T']) # Si le point d'arrivée est dans un '@' ou un 'T'
+        return []  # Cas où un AMR est bloqué, sert "d'erreur"
     end
     precedent = fill((0,0), height, width) # Matrice dans laquelle chaque point est associé son prédécesseur
     permanent = falses(height, width) # Matrice associant à chaque point un booléen indiquant s'il est permanent
@@ -14,7 +20,7 @@ function AStar2(G, vD, vA, tDep)
     precedent[vD[1], vD[2]] = (0,0)
     L = PriorityQueue{Tuple{Int,Int}, Float64}() # File avec priorité, à chaque point est associée sa valeur f
     enqueue!(L, vD, heuristique(vD, vA))
-    while L != []
+    while !isempty(L)
         u, v = peek(L)
         if (u == vA) # Si l'on atteint l'arrivée
             return trouve_chemin_doublons(G, precedent, vD, vA, tDep,[]) #On récupère le chemin menant à l'arrivée
@@ -33,4 +39,5 @@ function AStar2(G, vD, vA, tDep)
         end
         delete!(L, u)
     end
+    return [] # Cas où un AMR est bloqué, sert "d'erreur"
 end

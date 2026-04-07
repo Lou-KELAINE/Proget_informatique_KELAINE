@@ -21,7 +21,7 @@ function afficher_map_avec_chemin(grille, vD, vA, chemin)
                 print('D')
             elseif ((i,j) == vA)
                 print('A')
-            elseif ((i,j) in chemin[2:(length(chemin)-1)])
+            elseif ((i,j) in chemin[2:(length(chemin)-1)]) # On met un X sur chaque point du chemin
                 print('X')
             else
                 print(grille[i][j])
@@ -128,23 +128,74 @@ function verif_collision(occup, chemin)
     return ((0,0),0) # Si il n'y a pas de collision
 end
 
-# Fonction rajoutant un '@' à un point précis de la grille
-function rajoute_arobase(G, x, y)
-    H = []
-    for i in 1:length(G)
-        if (i != x)
-            push!(H, G[i])
-        else
-            ligne = ""
-            for j in 1:length(G[i])
-                if (j != y)
-                    ligne = string(ligne, G[i][j])
-                else
-                    ligne = string(ligne, '@')
-                end
-            end
-            push!(H, ligne)
+# Fonction rajoutant un symbole donné à un point précis de la grille
+function rajoute_symbole(G, x, y, symb)
+    H = copy(G)
+    ligne = ""
+    for i in 1:length(H[x]) # On parcourt la ligne du symbole
+        if (i == y) # On met le symbole si on est à la bonne position...
+            ligne = string(ligne, symb)
+        else # ..et on met le symbole d'origine sinon
+            ligne = string(ligne, H[x][i])
         end
     end
+    H[x] = ligne
     return H
+end
+
+# Fonction crééant le dictonnaire des temps
+function positions_temps(liste_chemins)
+    dico = Dict{Int, Vector{Tuple{Int, Tuple{Int,Int}}}}() # Dictionnaire ayant pour clé le temps t, pour valeur la liste des numéros des AMRs et leur position
+    for i in 1:length(liste_chemins) # Pour chaque AMR on rajoute son numéro et sa position à chaque temps
+        for ((point), t) in liste_chemins[i]
+            if !(haskey(dico, t))
+                dico[t] = [(i, point)]
+            else
+                push!(dico[t], (i, point))
+            end
+        end
+    end
+    return dico
+end
+
+# Fonction affichant la grille à chaque temps
+function affiche_grille_temps(G, dico_temps)
+    for temps in 1:maximum(keys(dico_temps)) # On fait un affichage à chaque unité de temps
+        liste_points = dico_temps[temps] # On récupère les AMRs se trouvant sur la grille à ce temps
+        print(string("\nt=", temps, "\n")) # On affiche le temps actuel...
+        for (num, point) in liste_points
+            print(string("AMR", num, ": ", point, "   ")) # ... et les AMRs présents avec leur position
+        end
+        print("\n")
+        H = copy(G)
+        for (num, point) in liste_points # On rajoute les numéros des AMRs à leur position respective
+            H = rajoute_symbole(H, point[1], point[2], string(num))
+        end
+        for i in 1:length(H) # Et on imprime la nouvelle grille
+            println(H[i])
+        end
+    end
+end
+
+# Fonction donnant le temps pris pour que tous les AMRs atteignent leur destination
+function temps_max(liste_chemins)
+    max = 0
+    for i in 1:length(liste_chemins)
+        if liste_chemins[i][end][2] > max
+            max = liste_chemins[i][end][2]
+        end
+    end
+    return max
+end
+
+# Fonction calculant le nombre de pas d'un chemin
+function nb_pas(chemin, G)
+    nb = 0
+    i = 1
+    long = length(chemin)
+    while i < long
+        nb += 1
+        i += cout(chemin[i][1], G)
+    end
+    return nb
 end
